@@ -1,0 +1,85 @@
+---
+pg_users_count:
+  query: "SELECT count(*) as count FROM pg_user WHERE usename NOT LIKE 'pg_%'"
+  metrics:
+    - count:
+        usage: "GAUGE"
+        description: "Total number of database users"
+
+pg_users_privileges:
+  query: "
+    SELECT 
+      usename as username,
+      CASE 
+        WHEN usesuper THEN 'superuser'
+        WHEN usecreatedb THEN 'db_creator' 
+        WHEN userepl THEN 'replication'
+        ELSE 'regular'
+      END as privilege_level,
+      1 as count
+    FROM pg_user
+    WHERE usename NOT LIKE 'pg_%'
+  "
+  metrics:
+    - username:
+        usage: "LABEL"
+        description: "Username"
+    - privilege_level:
+        usage: "LABEL" 
+        description: "User privilege level"
+    - count:
+        usage: "GAUGE"
+        description: "User count by privilege level"
+
+pg_roles_info:
+  query: "
+    SELECT 
+      rolname as role_name,
+      CASE WHEN rolsuper THEN 1 ELSE 0 END as is_superuser,
+      CASE WHEN rolcreatedb THEN 1 ELSE 0 END as can_create_db,
+      CASE WHEN rolcreaterole THEN 1 ELSE 0 END as can_create_roles,
+      CASE WHEN rolreplication THEN 1 ELSE 0 END as can_replicate,
+      CASE WHEN rolbypassrls THEN 1 ELSE 0 END as can_bypass_rls,
+      CASE WHEN rolinherit THEN 1 ELSE 0 END as inherits_privileges
+    FROM pg_roles
+    WHERE rolname NOT LIKE 'pg_%'
+  "
+  metrics:
+    - role_name:
+        usage: "LABEL"
+        description: "Role name"
+    - is_superuser:
+        usage: "GAUGE"
+        description: "Is superuser"
+    - can_create_db:
+        usage: "GAUGE"
+        description: "Can create databases"
+    - can_create_roles:
+        usage: "GAUGE"
+        description: "Can create roles"
+    - can_replicate:
+        usage: "GAUGE"
+        description: "Can do replication"
+    - can_bypass_rls:
+        usage: "GAUGE"
+        description: "Can bypass RLS"
+    - inherits_privileges:
+        usage: "GAUGE"
+        description: "Inherits privileges"
+
+pg_user_connections:
+  query: "
+    SELECT 
+      usename as username,
+      count(*) as connection_count
+    FROM pg_stat_activity 
+    WHERE datname = 'techno_events' AND usename IS NOT NULL
+    GROUP BY usename
+  "
+  metrics:
+    - username:
+        usage: "LABEL"
+        description: "Username"
+    - connection_count:
+        usage: "GAUGE"
+        description: "Active connections per user"

@@ -1,0 +1,166 @@
+{
+  "dashboard": {
+    "id": null,
+    "title": "External APIs Monitoring",
+    "tags": ["custom", "api", "monitoring"],
+    "timezone": "browser",
+    "panels": [
+      {
+        "id": 1,
+        "title": "Weather Temperature",
+        "type": "timeseries",
+        "targets": [
+          {
+            "expr": "weather_temperature_celsius",
+            "legendFormat": "{{city}}"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "unit": "celsius"
+          }
+        },
+        "gridPos": {"h": 8, "w": 12, "x": 0, "y": 0}
+      },
+      {
+        "id": 2,
+        "title": "Exchange Rates",
+        "type": "timeseries",
+        "targets": [
+          {
+            "expr": "exchange_rate_usd_rub",
+            "legendFormat": "USD/RUB"
+          },
+          {
+            "expr": "exchange_rate_eur_rub",
+            "legendFormat": "EUR/RUB"
+          }
+        ],
+        "gridPos": {"h": 8, "w": 12, "x": 12, "y": 0}
+      },
+      {
+        "id": 3,
+        "title": "Cryptocurrency Prices",
+        "type": "stat",
+        "targets": [
+          {
+            "expr": "exchange_rate_btc_usd",
+            "legendFormat": "Bitcoin"
+          },
+          {
+            "expr": "exchange_rate_eth_usd",
+            "legendFormat": "Ethereum"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "unit": "currencyUSD"
+          }
+        },
+        "gridPos": {"h": 8, "w": 12, "x": 0, "y": 8}
+      },
+      {
+        "id": 4,
+        "title": "COVID-19 Cases",
+        "type": "bargauge",
+        "targets": [
+          {
+            "expr": "covid_total_cases",
+            "legendFormat": "{{country}}"
+          }
+        ],
+        "gridPos": {"h": 8, "w": 12, "x": 12, "y": 8}
+      },
+      {
+        "id": 5,
+        "title": "Air Quality Index",
+        "type": "gauge",
+        "targets": [
+          {
+            "expr": "air_quality_index",
+            "legendFormat": "{{city}}"
+          }
+        ],
+        "gridPos": {"h": 8, "w": 12, "x": 0, "y": 16}
+      },
+      {
+        "id": 6,
+        "title": "Stock Prices",
+        "type": "timeseries",
+        "targets": [
+          {
+            "expr": "stock_price_usd",
+            "legendFormat": "{{symbol}}"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "unit": "currencyUSD"
+          }
+        },
+        "gridPos": {"h": 8, "w": 12, "x": 12, "y": 16}
+      },
+      {
+        "id": 7,
+        "title": "GitHub Stars",
+        "type": "stat",
+        "targets": [
+          {
+            "expr": "github_repo_stars",
+            "legendFormat": "{{repo}}"
+          }
+        ],
+        "gridPos": {"h": 8, "w": 12, "x": 0, "y": 24}
+      },
+      {
+        "id": 8,
+        "title": "Weather Humidity",
+        "type": "timeseries",
+        "targets": [
+          {
+            "expr": "weather_humidity_percent",
+            "legendFormat": "{{city}}"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "unit": "percent"
+          }
+        },
+        "gridPos": {"h": 8, "w": 12, "x": 12, "y": 24}
+      },
+      {
+        "id": 9,
+        "title": "API Response Times",
+        "type": "heatmap",
+        "targets": [
+          {
+            "expr": "api_response_time_seconds_sum",
+            "legendFormat": "Response Time"
+          }
+        ],
+        "gridPos": {"h": 8, "w": 12, "x": 0, "y": 32}
+      },
+      {
+        "id": 10,
+        "title": "API Errors",
+        "type": "timeseries",
+        "targets": [
+          {
+            "expr": "rate(api_errors_total[5m])",
+            "legendFormat": "{{api_name}}"
+          }
+        ],
+        "gridPos": {"h": 8, "w": 12, "x": 12, "y": 32}
+      }
+    ],
+    "time": {
+      "from": "now-1h",
+      "to": "now"
+    },
+    "refresh": "30s",
+    "schemaVersion": 36,
+    "version": 1,
+    "uid": "custom-dashboard"
+  }
+}
